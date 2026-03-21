@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  --color-background: hsl(240 10% 4%);
+  --color-foreground: hsl(0 0% 98%);
+  
+  --color-card: hsl(240 10% 6% / 0.6);
+  --color-card-foreground: hsl(0 0% 98%);
+  
+  --color-popover: hsl(240 10% 6% / 0.8);
+  --color-popover-foreground: hsl(0 0% 98%);
+  
+  --color-border: hsl(240 10% 20%);
+  --color-input: hsl(240 10% 20%);
+  --color-ring: hsl(240 10% 80%);
+
+  --color-primary: hsl(0 0% 98%);
+  --color-primary-foreground: hsl(240 5.9% 10%);
+
+  --color-secondary: hsl(240 10% 15%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+
+  --color-muted: hsl(240 10% 15%);
+  --color-muted-foreground: hsl(240 5% 65%);
+
+  --color-accent: hsl(240 10% 20%);
+  --color-accent-foreground: hsl(0 0% 98%);
+
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+}
+
+:root {
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 6%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 6%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 10% 15%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 10% 15%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 240 10% 20%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 10% 20%;
+  --input: 240 10% 20%;
+  --ring: 240 10% 80%;
+  --radius: 1rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30;
+    /* Force dark mode for this specific cinematic app */
+    background-color: #050507;
+    background-image: radial-gradient(circle at 50% 0%, #1a1a24 0%, #050507 70%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply font-bold tracking-tight;
+  }
+}
+
+/* Custom Scrollbar for sleek dark mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  @apply bg-black/40 backdrop-blur-xl border border-white/10 shadow-2xl;
+}
+.glass-panel-hover {
+  @apply hover:bg-black/50 hover:border-white/20 transition-all duration-300;
+}
+
+/* Neon glow utility generator */
+.glow-gold { text-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+.glow-purple { text-shadow: 0 0 20px rgba(192, 132, 252, 0.5); }
+.glow-cyan { text-shadow: 0 0 20px rgba(45, 212, 191, 0.5); }
+.glow-green { text-shadow: 0 0 20px rgba(74, 222, 128, 0.5); }
+.glow-orange { text-shadow: 0 0 20px rgba(251, 146, 60, 0.5); }
+.glow-blue { text-shadow: 0 0 20px rgba(96, 165, 250, 0.5); }
+.glow-pink { text-shadow: 0 0 20px rgba(244, 114, 182, 0.5); }
+.glow-red { text-shadow: 0 0 20px rgba(248, 113, 113, 0.5); }
+.glow-gray { text-shadow: 0 0 20px rgba(148, 163, 184, 0.5); }
