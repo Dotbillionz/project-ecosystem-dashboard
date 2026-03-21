@@ -1,0 +1,13 @@
+packages:
+  "framer-motion": "Required for fluid cinematic page transitions, complex shared layout animations, and glassmorphism hover effects."
+  "clsx": "Utility for constructing className strings conditionally."
+  "tailwind-merge": "Utility to merge Tailwind CSS classes."
+
+images:
+  - path: "artifacts/ecosystem-dashboard/public/images/bg-mesh.png"
+    description: "Deep dark futuristic background with subtle glowing neon light leaks in cyan, purple, and gold. Very dark, almost black, cinematic 3D abstract geometric shapes faintly visible in the background."
+    aspect_ratio: "16:9"
+
+notes:
+  - "This is a strictly frontend interactive dashboard, mock data is used for the entire ecosystem as per requirements."
+  - "No backend routes are required or called."
