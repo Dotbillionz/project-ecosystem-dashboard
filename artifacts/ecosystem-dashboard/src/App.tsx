@@ -7,6 +7,7 @@ import { Dashboard } from "@/pages/Dashboard";
 import { SpotXPanel } from "@/pages/SpotXPanel";
 import { UserDashboard } from "@/pages/UserDashboard";
 import { LoginPage } from "@/pages/LoginPage";
+import { ExecutiveDashboard } from "@/pages/ExecutiveDashboard";
 import { useAuth } from "@workspace/replit-auth-web";
 
 const queryClient = new QueryClient();
@@ -32,7 +33,8 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={() => <AuthGate><Dashboard /></AuthGate>} />
+      <Route path="/" component={() => <AuthGate><ExecutiveDashboard /></AuthGate>} />
+      <Route path="/ecosystem" component={() => <AuthGate><Dashboard /></AuthGate>} />
       <Route path="/spotx" component={() => <AuthGate><SpotXPanel /></AuthGate>} />
       <Route path="/dashboard" component={() => <AuthGate><UserDashboard /></AuthGate>} />
       <Route component={NotFound} />

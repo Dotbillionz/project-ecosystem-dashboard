@@ -30,7 +30,15 @@ app.use(
 
 app.use(cors({ credentials: true, origin: true }));
 app.use(cookieParser());
-app.use(express.json());
+app.use((_, res, next) => {
+  res.setHeader("x-content-type-options", "nosniff");
+  res.setHeader("x-frame-options", "DENY");
+  res.setHeader("referrer-policy", "no-referrer");
+  next();
+});
+
+app.use("/api/integrations/github/webhook", express.raw({ type: "application/json" }));
+app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(authMiddleware);
 
