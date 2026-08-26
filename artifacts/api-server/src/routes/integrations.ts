@@ -11,24 +11,29 @@ const router: IRouter = Router();
 router.post("/integrations/github/webhook", async (req, res) => {
   const eventType = req.headers["x-github-event"];
   const signature = req.headers["x-hub-signature-256"];
-  const rawBody = Buffer.isBuffer(req.body) ? req.body.toString("utf8") : "";
+  const rawBody = Buffer.isBuffer(req.body) ? req.body : Buffer.alloc(0);
 
   if (typeof eventType !== "string") {
     res.status(400).json({ success: false, error: "Missing x-github-event header" });
     return;
   }
 
-  if (!rawBody) {
+  if (rawBody.length === 0) {
     res.status(400).json({ success: false, error: "Missing raw payload" });
     return;
   }
 
-  if (!verifyGitHubSignature(rawBody, typeof signature === "string" ? signature : undefined)) {
+  if (
+    !verifyGitHubSignature(
+      rawBody as Parameters<typeof verifyGitHubSignature>[0],
+      typeof signature === "string" ? signature : undefined,
+    )
+  ) {
     res.status(401).json({ success: false, error: "Invalid webhook signature" });
     return;
   }
 
-  const payload = JSON.parse(rawBody) as GitHubWebhookEvent;
+  const payload = JSON.parse(rawBody.toString("utf8")) as GitHubWebhookEvent;
 
   await triggerGitHubWorkflow(eventType, payload);
 
