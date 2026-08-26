@@ -1,4 +1,5 @@
 import { Router, type IRouter } from "express";
+import { env } from "../config/env";
 import { dispatchOpsAlert } from "../lib/integrations/notifications";
 import {
   triggerGitHubWorkflow,
@@ -34,6 +35,11 @@ router.post("/integrations/github/webhook", async (req, res) => {
   }
 
   const payload = JSON.parse(rawBody.toString("utf8")) as GitHubWebhookEvent;
+
+  if (!env.githubRepository || payload.repository?.full_name !== env.githubRepository) {
+    res.status(400).json({ success: false, error: "Repository mismatch" });
+    return;
+  }
 
   await triggerGitHubWorkflow(eventType, payload);
 
