@@ -31,13 +31,13 @@ export function buildExecutiveBriefing(): ExecutiveBriefing {
     { id: "notion", configured: Boolean(env.notionApiToken && env.notionDatabaseId), category: "collaboration" },
   ];
 
-  const missingCritical = integrations.filter((item) => !item.configured).length;
+  const missingIntegrationsCount = integrations.filter((item) => !item.configured).length;
   const summary =
-    missingCritical === 0
+    missingIntegrationsCount === 0
       ? "All CrownOps integrations are configured and operational."
-      : `${missingCritical} integrations still need secrets or endpoint configuration.`;
+      : `${missingIntegrationsCount} integrations still need secrets or endpoint configuration.`;
 
-  const alerts: ExecutiveBriefing["alerts"] = missingCritical
+  const alerts: ExecutiveBriefing["alerts"] = missingIntegrationsCount
     ? [{ severity: "warning", title: "Integration configuration backlog" }]
     : [{ severity: "info", title: "No critical system alerts" }];
 
