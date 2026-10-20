@@ -7,15 +7,17 @@ const roleWeight: Record<CrownOpsRole, number> = {
   executive: 3,
 };
 
-function getUserRole(req: Request): CrownOpsRole {
-  const headerRole = req.headers["x-crownops-role"];
-  if (headerRole === "executive" || headerRole === "operator" || headerRole === "viewer") {
-    return headerRole;
-  }
+/**
+ * Authorization must depend only on the authenticated server-side identity.
+ * Never derive privileges from client-controlled headers such as x-crownops-role.
+ * Operator assignment is intentionally not inferred until an authenticated
+ * role store or trusted identity-provider claim is implemented.
+ */
+function getUserRole(req: Request): CrownOpsRole | null {
+  if (!req.isAuthenticated()) return null;
 
-  const maybeEmail = (req.user as { email?: string } | undefined)?.email;
-  const userEmail = maybeEmail?.toLowerCase();
-  if (userEmail && env.ctoAdminEmails.includes(userEmail)) {
+  const userEmail = req.user.email?.trim().toLowerCase();
+  if (userEmail && env.ctoAdminEmails.some((email) => email.trim().toLowerCase() === userEmail)) {
     return "executive";
   }
 
@@ -25,6 +27,10 @@ function getUserRole(req: Request): CrownOpsRole {
 export function requireRole(minRole: CrownOpsRole) {
   return (req: Request, res: Response, next: NextFunction) => {
     const userRole = getUserRole(req);
+    if (!userRole) {
+      res.status(401).json({ success: false, error: "Authentication required" });
+      return;
+    }
 
     if (roleWeight[userRole] < roleWeight[minRole]) {
       res.status(403).json({
